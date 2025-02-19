@@ -44,5 +44,45 @@ class Order {
         return calculateSubtotal() + calculateTax();
     }
 
+    public void generateInvoiceText() {
+        try (FileWriter file = new FileWriter("invoice.txt")) {
+            file.write("Yogurt Shop Invoice\n");
+            for (YogurtFlavor flavor : flavors) {
+                file.write(flavor.name + " - 1 scoop: $" + String.format("%.2f", flavor.price) + "\n");
+            }
+            for (Topping topping : toppings) {
+                file.write(topping.name + " - 1 time: $" + String.format("%.2f", topping.price) + "\n");
+            }
+            if (isGlassJar) {
+                file.write("Glass Jar - 1 time: $" + String.format("%.2f", GLASS_JAR_PRICE) + "\n");
+            }
+            file.write("Subtotal: $" + String.format("%.2f", calculateSubtotal()) + "\n");
+            file.write("Tax: $" + String.format("%.2f", calculateTax()) + "\n");
+            file.write("Total Amount Due: $" + String.format("%.2f", calculateTotal()) + "\n");
+            System.out.println("Invoice saved as invoice.txt");
+        } catch (IOException e) {
+            System.out.println("Error writing invoice file!");
+        }
+    }
 
+    public void generateInvoiceCSV() {
+        try (FileWriter file = new FileWriter("invoice.csv")) {
+            file.write("Ingredients,Amount,Price\n");
+            for (YogurtFlavor flavor : flavors) {
+                file.write(flavor.name + ",1," + String.format("%.2f", flavor.price) + "\n");
+            }
+            for (Topping topping : toppings) {
+                file.write(topping.name + ",1," + String.format("%.2f", topping.price) + "\n");
+            }
+            if (isGlassJar) {
+                file.write("Glass Jar,1," + String.format("%.2f", GLASS_JAR_PRICE) + "\n");
+            }
+            file.write("Subtotal,-," + String.format("%.2f", calculateSubtotal()) + "\n");
+            file.write("Tax,-," + String.format("%.2f", calculateTax()) + "\n");
+            file.write("Total Amount Due,-," + String.format("%.2f", calculateTotal()) + "\n");
+            System.out.println("Invoice saved as invoice.csv");
+        } catch (IOException e) {
+            System.out.println("Error writing CSV file!");
+        }
+    }
 }
