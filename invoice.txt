@@ -1,0 +1,5 @@
+Yogurt Shop Invoice
+Cookies and Cream - 1 scoop: $2.80
+Subtotal: $2.80
+Tax: $0.22
+Total Amount Due: $3.02
